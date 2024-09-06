@@ -24,18 +24,12 @@ jobs:
           username: ${{ env.SERVER_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            if [ ! -d "go/src" ]; then
-              mkdir -p go/src
+            if [ ! -d "cicd/lesson_ci_cd" ]; then
+              git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git cicd/lesson_ci_cd
             fi
-            
-            if [ ! -d "go/src/todolist" ]; then
-              git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git  go/src/todolist
-            fi
-            
-            cd go/src/todolist
+            cd cicd/lesson_ci_cd/
             git pull origin main
-            
-            sudo docker compose down
-            sudo docker compose up --build -d
+            docker compose down
+            docker compose up --build -d
           script_stop: true
           timeout: 200s
