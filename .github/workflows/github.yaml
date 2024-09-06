@@ -27,7 +27,7 @@ jobs:
             if [ ! -d "go/src" ]; then
               git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git go/src
             fi
-            cd cicd/lesson_ci_cd/
+            cd go/src/
             git pull origin main
             docker compose down
             docker compose up --build -d
