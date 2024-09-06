@@ -24,11 +24,18 @@ jobs:
           username: ${{ env.SERVER_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
+            if [ ! -d "go/src" ]; then
+              mkdir -p go/src
+            fi
+            
             if [ ! -d "go/src/todolist" ]; then
               git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git go/src/todolist
             fi
+            
             cd go/src/todolist
             git pull origin main
+            
+            # Перезапуск Docker контейнеров
             docker compose down
             docker compose up --build -d
           script_stop: true
