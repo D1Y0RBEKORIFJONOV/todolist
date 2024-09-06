@@ -24,8 +24,8 @@ jobs:
           username: ${{ env.SERVER_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            if [ ! -d "cicd/lesson_ci_cd" ]; then
-              git clone https://github.com/D1Y0RBEKORIFJONOV/94_matrix cicd/lesson_ci_cd
+            if [ ! -d "go/src" ]; then
+              git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git go/src
             fi
             cd cicd/lesson_ci_cd/
             git pull origin main
