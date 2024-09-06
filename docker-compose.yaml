@@ -87,6 +87,6 @@ networks:
     driver: bridge
 
 volumes:
-  db-data1:
+  postgres-data:
   redis-data:
   mongo-data:
