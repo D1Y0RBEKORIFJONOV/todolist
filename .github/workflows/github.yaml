@@ -29,14 +29,13 @@ jobs:
             fi
             
             if [ ! -d "go/src/todolist" ]; then
-              git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git go/src/todolist
+              git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git  go/src/todolist
             fi
             
             cd go/src/todolist
             git pull origin main
             
-            # Перезапуск Docker контейнеров
-            docker compose down
-            docker compose up --build -d
+            sudo docker compose down
+            sudo docker compose up --build -d
           script_stop: true
           timeout: 200s
