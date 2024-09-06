@@ -24,20 +24,11 @@ jobs:
           username: ${{ env.SERVER_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            if [ -d "cicd/lesson_ci_cd" ]; then
-              cd cicd/lesson_ci_cd
-              if [ -d ".git" ]; then
-                git pull origin main
-              else
-                echo "Directory exists but is not a git repository. Removing and cloning again."
-                cd ..
-                rm -rf cicd/lesson_ci_cd
-                git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git cicd/lesson_ci_cd
-              fi
-            else
+            if [ ! -d "cicd/lesson_ci_cd" ]; then
               git clone https://github.com/D1Y0RBEKORIFJONOV/todolist.git cicd/lesson_ci_cd
             fi
-            cd cicd/lesson_ci_cd
+            cd cicd/lesson_ci_cd/
+            git pull origin main
             docker compose down
             docker compose up --build -d
           script_stop: true
