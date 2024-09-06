@@ -7,7 +7,7 @@ on:
 
 env:
   SERVER_USERNAME: ubuntu
-  SERVER_IP: 52.59.220.158
+  SERVER_IP: 35.159.223.170
   SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
 jobs:
