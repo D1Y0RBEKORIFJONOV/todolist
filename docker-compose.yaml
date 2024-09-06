@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  go:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: todolist_application
+    image: myapp7
+    environment:
+      - PG_URL=postgres://postgres:+_+diyor2005+_+@postgresDB:5432/todolist?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - MONGO_URL=mongodb://mongo:27017
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - migrate3
+      - mongo
+      - redis
+    networks:
+      - todolist-network
+    volumes:
+      - ./todolist:/todolist/todolist
+
+  postgres:
+    container_name: postgresDB
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: todolist
+      POSTGRES_PASSWORD: +_+diyor2005+_+
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-data1:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - todolist-network
+
+  migrate3:
+    image: migrate/migrate:latest
+    restart: on-failure
+    networks:
+      - todolist-network
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://postgres:+_+diyor2005+_+@postgresDB:5432/todolist?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - todolist-network
+    volumes:
+      - redis-data:/data
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - todolist-network
+
+networks:
+  todolist-network:
+    driver: bridge
+
+volumes:
+  db-data1:
+  redis-data:
+  mongo-data:

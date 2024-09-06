@@ -1,0 +1,362 @@
+basePath: /
+definitions:
+  entityuser.CreateUserReq:
+    properties:
+      confirm_password:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  entityuser.LoginReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  entityuser.StatusMessage:
+    properties:
+      message:
+        type: string
+    type: object
+  entityuser.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      password_hash:
+        type: string
+      user_name:
+        type: string
+    type: object
+  entityuser.VerifyUserReq:
+    properties:
+      email:
+        type: string
+      secret_code:
+        type: string
+    type: object
+  tasksentity.CreateTaskReq:
+    properties:
+      status:
+        $ref: '#/definitions/tasksentity.Status'
+      title:
+        type: string
+    type: object
+  tasksentity.Status:
+    properties:
+      condition:
+        type: string
+      description:
+        type: string
+      important:
+        type: boolean
+    type: object
+  tasksentity.Task:
+    properties:
+      create_at:
+        type: string
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/tasksentity.Status'
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  tasksentity.UpdateTaskReq:
+    properties:
+      status:
+        $ref: '#/definitions/tasksentity.Status'
+      title:
+        type: string
+    type: object
+host: localhost:9000
+info:
+  contact: {}
+  description: This is a sample server for a restaurant reservation system.
+  title: Artisan Connect
+  version: "1.0"
+paths:
+  /task/{field}/{value}:
+    get:
+      consumes:
+      - application/json
+      description: GetTask task
+      parameters:
+      - description: field
+        in: path
+        name: field
+        required: true
+        type: string
+      - description: value
+        in: path
+        name: value
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/tasksentity.Task'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetTask
+      tags:
+      - task
+  /task/create:
+    post:
+      consumes:
+      - application/json
+      description: CreateTask  users
+      parameters:
+      - description: ' '
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/tasksentity.CreateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/tasksentity.Task'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: CreateTask
+      tags:
+      - task
+  /task/delete/{task_id}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteTask tasks
+      parameters:
+      - description: task_id
+        in: path
+        name: task_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteTask
+      tags:
+      - task
+  /task/tasks:
+    get:
+      consumes:
+      - application/json
+      description: GetTasks tasks
+      parameters:
+      - description: Field
+        in: header
+        name: field
+        type: string
+      - description: Value
+        in: header
+        name: value
+        type: string
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/tasksentity.Task'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: GetTasks
+      tags:
+      - task
+  /task/update/{task_id}:
+    patch:
+      consumes:
+      - application/json
+      description: update task
+      parameters:
+      - description: task_id
+        in: path
+        name: task_id
+        required: true
+        type: string
+      - description: ' '
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/tasksentity.UpdateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/tasksentity.Task'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateTask
+      tags:
+      - task
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate a user and return a token
+      parameters:
+      - description: User login information
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entityuser.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entityuser.LoginReq'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: User registration information
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entityuser.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entityuser.StatusMessage'
+        "400":
+          description: Bad Request
+          schema: {}
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Register
+      tags:
+      - auth
+  /user/verify:
+    post:
+      consumes:
+      - application/json
+      description: Confirm the code sent to the email
+      parameters:
+      - description: User verification information
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entityuser.VerifyUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entityuser.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: VerifyUser
+      tags:
+      - auth
+schemes:
+- http
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
