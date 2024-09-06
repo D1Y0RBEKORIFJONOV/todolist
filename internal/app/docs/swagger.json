@@ -9,7 +9,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:9000",
+    "host": "52.59.220.158:9000",
     "basePath": "/",
     "paths": {
         "/task/create": {

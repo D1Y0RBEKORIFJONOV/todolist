@@ -14,7 +14,7 @@ import (
 // @title Artisan Connect
 // @version 1.0
 // @description This is a sample server for a restaurant reservation system.
-// @host localhost:9000
+// @host 52.59.220.158:9000
 // @BasePath        /
 // @schemes         http
 // @securityDefinitions.apiKey ApiKeyAuth
