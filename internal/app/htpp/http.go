@@ -24,7 +24,7 @@ func NewApp(logger *slog.Logger, port string, handlerService userusecase.UserUse
 }
 
 func (app *App) Start() {
-	const op = "app.Start"
+	const op = "app.Start "
 	log := app.Logger.With(
 		slog.String(op, "Starting server"),
 		slog.String("port", app.Port))
