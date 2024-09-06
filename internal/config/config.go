@@ -56,7 +56,7 @@ func New() *Config {
 	config.HostUrl = getEnv("HOST_URL", "todolist_application:9000")
 	config.Context.Timeout = getEnv("CONTEXT_TIMEOUT", "30s")
 
-	config.DB.Host = getEnv("POSTGRES_HOST", "postgresDB")
+	config.DB.Host = getEnv("POSTGRES_HOST", "postgres")
 	config.DB.Port = getEnv("POSTGRES_PORT", "5432")
 	config.DB.User = getEnv("POSTGRES_USER", "postgres")
 	config.DB.Password = getEnv("POSTGRES_PASSWORD", "+_+diyor2005+_+")
