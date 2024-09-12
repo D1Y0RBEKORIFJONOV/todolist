@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  go:
+    build:
+      context: ./todolist
+      dockerfile: Dockerfile
+    container_name: todolist_application
+    image: myapp7
+    environment:
+      - PG_URL=postgres://postgres:+_+diyor2005+_+@postgresDB:5432/todolist?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - MONGO_URL=mongodb://mongo:27017
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - migrate3
+      - mongo
+      - redis
+      - websocket
+      - notification_service
+    networks:
+      - todolist-network
+    volumes:
+      - ./todolist:/todolist/todolist
+
+
+  notification_service:
+    build: ./notification-service
+
+    container_name: notification_service_container
+    ports:
+      - "9001:9001"
+    depends_on:
+      - redis
+      - mongo
+    networks:
+      - todolist-network
+
+  websocket:
+    build: ./websocket
+    container_name: ws
+    ports:
+      - "9005:9005"
+    depends_on:
+      - redis
+      - notification_service
+    networks:
+      - todolist-network
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: +_+diyor2005+_+
+      POSTGRES_DB: todolist
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d internship || exit 1" ]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - todolist-network
+
+  migrate3:
+    image: migrate/migrate:latest
+    restart: on-failure
+    networks:
+      - todolist-network
+    volumes:
+      - ./migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://postgres:+_+diyor2005+_+@postgresDB:5432/todolist?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - todolist-network
+    volumes:
+      - redis-data:/data
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - todolist-network
+
+networks:
+  todolist-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  redis-data:
+  mongo-data:
