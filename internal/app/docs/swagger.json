@@ -9,7 +9,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "52.59.220.158:9000",
+    "host": "https://diyorbek.touristan-bs.uz:9000",
     "basePath": "/",
     "paths": {
         "/task/create": {
