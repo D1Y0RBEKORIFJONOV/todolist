@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -26,7 +27,7 @@ func RegisterRouter(user userusecase.UserUseCaseImpl, tasks taskusecase.TaskUseC
 	taskHandler := handler.NewTask(tasks)
 
 	router := gin.Default()
-
+	router.Use(cors.Default())
 	router.Use(middleware.Middleware)
 	router.Use(middleware.TimingMiddleware)
 
