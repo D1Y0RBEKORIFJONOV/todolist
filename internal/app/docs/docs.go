@@ -569,7 +569,7 @@ var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "52.59.220.158:9000",
 	BasePath:         "/",
-	Schemes:          []string{"http"},
+	Schemes:          []string{"https"},
 	Title:            "Artisan Connect",
 	Description:      "This is a sample server for a restaurant reservation system.",
 	InfoInstanceName: "swagger",

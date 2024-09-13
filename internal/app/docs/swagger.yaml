@@ -353,7 +353,7 @@ paths:
       tags:
       - auth
 schemes:
-- http
+- https
 securityDefinitions:
   ApiKeyAuth:
     in: header

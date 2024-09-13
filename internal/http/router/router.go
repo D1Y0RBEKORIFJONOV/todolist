@@ -16,7 +16,7 @@ import (
 // @description This is a sample server for a restaurant reservation system.
 // @host 52.59.220.158:9000
 // @BasePath        /
-// @schemes         http
+// @schemes         https
 // @securityDefinitions.apiKey ApiKeyAuth
 // @in              header
 // @name            Authorization
