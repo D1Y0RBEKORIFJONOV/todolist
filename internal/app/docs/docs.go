@@ -567,7 +567,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://diyorbek.touristan-bs.uz:9000",
+	Host:             "diyorbek.touristan-bs.uz:9000",
 	BasePath:         "/",
 	Schemes:          []string{"https"},
 	Title:            "Artisan Connect",

@@ -77,7 +77,7 @@ definitions:
       title:
         type: string
     type: object
-host: https://diyorbek.touristan-bs.uz:9000
+host: diyorbek.touristan-bs.uz:9000
 info:
   contact: {}
   description: This is a sample server for a restaurant reservation system.
